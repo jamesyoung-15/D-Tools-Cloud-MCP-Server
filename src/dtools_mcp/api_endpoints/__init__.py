@@ -27,6 +27,10 @@ from dtools_mcp.api_endpoints.purchase_orders import (
     list_purchase_orders,
     get_purchase_order_details,
 )
+from dtools_mcp.api_endpoints.quotes import (
+    list_quotes,
+    get_quote_details,
+)
 
 __all__ = [
     # Clients
@@ -47,4 +51,7 @@ __all__ = [
     # Purchase Orders
     "list_purchase_orders",
     "get_purchase_order_details",
+    # Quotes
+    "list_quotes",
+    "get_quote_details",
 ]
