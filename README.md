@@ -4,9 +4,9 @@ Model Context Protocol (MCP) server for D-Tools Cloud API. Enables Claude and ot
 
 ## Overview
 
-This MCP server provides 17 tools for accessing D-Tools Cloud resources:
+This MCP server provides 22 tools for accessing D-Tools Cloud resources:
 
-- **Clients**: List clients, get client details
+- **Clients**: List clients, get client details, create new client, update existing client
 - **Projects**: List projects, get project details  
 - **Change Orders**: List change orders, get change order details
 - **Opportunities**: List opportunities, get opportunity details, create opportunity, update opportunity

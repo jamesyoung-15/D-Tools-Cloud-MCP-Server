@@ -1,10 +1,10 @@
 # Supported Features
 
-## MCP Tools (17 Total)
+## MCP Tools (22 Total)
 
 All tools support comprehensive error handling with `success` and `error` fields in responses.
 
-### Clients (2 tools)
+### Clients (4 tools)
 
 - **`get_all_clients`** - List all clients with filtering
   - Filters: types, owners, date ranges (created/modified), include inactive, search
@@ -13,6 +13,12 @@ All tools support comprehensive error handling with `success` and `error` fields
 
 - **`get_client_info`** - Get detailed information about a specific client
   - Returns: client details, addresses, contacts, files
+
+- **`create_new_client`** - Create new client
+  - Returns: client UUID
+
+- **`update_existing_client`** - Updates an existing client information
+  - Returns: Update status (eg. success)
 
 ### Projects (2 tools)
 
@@ -33,7 +39,7 @@ All tools support comprehensive error handling with `success` and `error` fields
 - **`get_change_order_info`** - Get detailed change order information
   - Returns: full change order details, items, adjustments, payments, taxes
 
-### Opportunities (2 tools)
+### Opportunities (4 tools)
 
 - **`get_all_opportunities`** - List all opportunities with extensive filtering
   - Filters: types, client_ids, stages, stage_groups, priorities, owners, date ranges (estimated/actual close dates, created/modified), include archived, search
@@ -42,6 +48,12 @@ All tools support comprehensive error handling with `success` and `error` fields
 
 - **`get_opportunity_info`** - Get detailed opportunity information
   - Returns: full opportunity details, pricing, associated quotes, resources, files
+
+- **`create_new_opportunity`** - Creates new opportunity
+  - Returns: New created oportunity ID
+
+- **`update_existing_opportunity`** - Updates an existing opportunity
+  - Returns: Update status (eg. success)
 
 ### Products (2 tools)
 
@@ -102,10 +114,13 @@ All tools support comprehensive error handling with `success` and `error` fields
 - [x] **Clients**
   - [x] GetClients - List with filters and pagination
   - [x] GetClient - Get single client details
+  - [x] CreateClient - Creates a client
+  - [x] UpdateClient - Updates an existing client
 
 - [x] **Projects**
   - [x] GetProjects - List with filters and pagination
   - [x] GetProject - Get single project details
+  - [ ] UpdateProject - Updates existing project
 
 - [x] **Change Orders**
   - [x] GetChangeOrders - List by project with pagination
@@ -114,10 +129,15 @@ All tools support comprehensive error handling with `success` and `error` fields
 - [x] **Opportunities**
   - [x] GetOpportunities - List with filters and pagination
   - [x] GetOpportunity - Get single opportunity details
+  - [x] CreateOpportunity - Creates new opportunity
+  - [x] UpdateOpportunity - Updates existing opportunity
 
 - [x] **Products**
   - [x] GetProducts - List with filters and pagination
   - [x] GetProduct - Get single product details
+  - [ ] UpdateProductPrices - Updates a product's price
+  - [ ] UpdateProductBarcodes - Updates product's barcode
+  - [ ] UpdateProductStatuses - Updates product's status
 
 - [x] **Purchase Orders**
   - [x] GetPurchaseOrders - List with filters and pagination
@@ -136,11 +156,6 @@ All tools support comprehensive error handling with `success` and `error` fields
 
 - [x] **Files**
   - [x] GetFile - Get single file details
-
-### Not Implemented
-
-- [ ] Create/Update operations (POST, PUT endpoints)
-- [ ] Delete operations
 
 ## Common Features
 
@@ -164,12 +179,9 @@ All tools return consistent error responses:
 
 ### Authentication
 
-Supports two authentication methods:
+Supports authentication methods:
 
-1. **API Key**: `DTOOLS_API_KEY` environment variable
-2. **Auth Token**: `DTOOLS_AUTH_TOKEN` environment variable
-
-Both methods are automatically handled by the server.
+- **API Key**: `DTOOLS_API_KEY` environment variable
 
 ## Architecture
 
