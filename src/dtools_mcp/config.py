@@ -15,5 +15,7 @@ class Config:
     dtools_api_key: str = os.getenv("DTOOLS_API_KEY", "")
     dtools_auth_token: str = os.getenv("DTOOLS_AUTH_TOKEN", "")
 
+    log_level: str = os.getenv("LOG_LEVEL", "INFO").upper()
+    log_file: str = os.getenv("LOG_FILE", "mcp_server.log")
 
 config = Config()
