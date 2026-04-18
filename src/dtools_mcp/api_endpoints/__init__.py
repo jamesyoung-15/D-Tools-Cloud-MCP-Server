@@ -6,6 +6,8 @@ Organized by resource type for better code organization and scalability.
 from dtools_mcp.api_endpoints.clients import (
     list_clients,
     get_client_details,
+    create_client,
+    update_client,
 )
 from dtools_mcp.api_endpoints.projects import (
     list_projects,
@@ -48,6 +50,8 @@ __all__ = [
     # Clients
     "list_clients",
     "get_client_details",
+    "create_client",
+    "update_client",
     # Projects
     "list_projects",
     "get_project_details",

@@ -111,3 +111,168 @@ async def get_client_details(client_id: str) -> dict[str, Any]:
         )
         response.raise_for_status()
         return response.json()
+
+
+async def create_client(client_data: dict[str, Any]) -> str:
+    """Create a new client in D-Tools Cloud.
+
+    Args:
+        client_data: Dictionary containing client fields.
+            Required: name
+            Optional: type, email, phone, fax, website, owner, isActive,
+                     billingAddress, siteAddresses, contacts, etc.
+
+            Address object structure (billingAddress, siteAddresses):
+            {
+                "name": str (optional),
+                "addressLine1": str,
+                "addressLine2": str (optional),
+                "city": str,
+                "state": str,
+                "postalCode": str,
+                "country": str
+            }
+
+            Contact object structure (contacts array):
+            {
+                "id": str (optional UUID),
+                "name": str,
+                "firstName": str,
+                "lastName": str,
+                "company": str (optional),
+                "title": str (optional),
+                "email": str,
+                "secondaryEmail": str (optional),
+                "mobile": str (optional),
+                "phone": str (optional),
+                "fax": str (optional),
+                "addressLine1": str (optional),
+                "addressLine2": str (optional),
+                "city": str (optional),
+                "state": str (optional),
+                "postalCode": str (optional),
+                "country": str (optional),
+                "notes": str (optional),
+                "isActive": bool (optional),
+                "isPrimary": bool (optional)
+            }
+
+    Returns:
+        The UUID of the newly created client.
+
+    Raises:
+        httpx.HTTPError: If the API request fails.
+        ValueError: If authentication is not configured or required fields are missing.
+    """
+    if not client_data:
+        raise ValueError("client_data must not be empty")
+
+    # Validate required fields
+    if not client_data.get("name"):
+        raise ValueError("client_data must contain 'name' field (required)")
+
+    if not config.dtools_api_key and not config.dtools_auth_token:
+        raise ValueError(
+            "D-Tools credentials not configured. "
+            "Set DTOOLS_API_KEY or DTOOLS_AUTH_TOKEN environment variables."
+        )
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{BASE_API_URL}/Clients/CreateClient",
+            json=client_data,
+            headers=get_headers(),
+        )
+        if response.status_code >= 400:
+            error_details = response.text
+            try:
+                error_json = response.json()
+                error_details = error_json
+            except Exception:
+                pass
+            logger.error(f"API Error: {response.status_code} - {error_details}")
+            response.raise_for_status()
+        return response.json()
+
+
+async def update_client(client_id: str, client_data: dict[str, Any]) -> str:
+    """Update an existing client in D-Tools Cloud.
+
+    Args:
+        client_id: The UUID of the client to update.
+        client_data: Dictionary containing client fields to update.
+            Updateable fields: name, type, email, phone, fax, website, owner,
+                             isExemptFromTax, isActive, billingAddress,
+                             siteAddresses, contacts, etc.
+
+            Address object structure (billingAddress, siteAddresses):
+            {
+                "name": str (optional),
+                "addressLine1": str,
+                "addressLine2": str (optional),
+                "city": str,
+                "state": str,
+                "postalCode": str,
+                "country": str
+            }
+
+            Contact object structure (contacts array):
+            {
+                "id": str (optional UUID),
+                "name": str,
+                "firstName": str,
+                "lastName": str,
+                "company": str (optional),
+                "title": str (optional),
+                "email": str,
+                "secondaryEmail": str (optional),
+                "mobile": str (optional),
+                "phone": str (optional),
+                "fax": str (optional),
+                "addressLine1": str (optional),
+                "addressLine2": str (optional),
+                "city": str (optional),
+                "state": str (optional),
+                "postalCode": str (optional),
+                "country": str (optional),
+                "notes": str (optional),
+                "isActive": bool (optional),
+                "isPrimary": bool (optional)
+            }
+
+    Returns:
+        The UUID of the updated client.
+
+    Raises:
+        httpx.HTTPError: If the API request fails.
+        ValueError: If authentication is not configured or ID is invalid.
+    """
+    if not client_id:
+        raise ValueError("client_id is required")
+
+    if not client_data:
+        raise ValueError("client_data must contain at least one field to update")
+
+    if not config.dtools_api_key and not config.dtools_auth_token:
+        raise ValueError(
+            "D-Tools credentials not configured. "
+            "Set DTOOLS_API_KEY or DTOOLS_AUTH_TOKEN environment variables."
+        )
+
+    async with httpx.AsyncClient() as client:
+        response = await client.put(
+            f"{BASE_API_URL}/Clients/UpdateClient",
+            params={"id": client_id},
+            json=client_data,
+            headers=get_headers(),
+        )
+        if response.status_code >= 400:
+            error_details = response.text
+            try:
+                error_json = response.json()
+                error_details = error_json
+            except Exception:
+                pass
+            logger.error(f"API Error: {response.status_code} - {error_details}")
+            response.raise_for_status()
+        return response.json()
