@@ -407,17 +407,17 @@ async def create_new_opportunity(
             raise ValueError("name is required")
         if not client_id and not client_name:
             raise ValueError("either client_id or client_name is required")
-        
+
         opportunity_data: dict[str, Any] = {
             "name": name,
         }
-        
+
         # Add client info (at least one is required, add both if provided)
         if client_id is not None:
             opportunity_data["clientId"] = client_id
         if client_name is not None:
             opportunity_data["clientName"] = client_name
-        
+
         # Add optional fields if provided
         if type is not None:
             opportunity_data["type"] = type
@@ -455,7 +455,7 @@ async def create_new_opportunity(
             opportunity_data["estimatedCloseDate"] = estimated_close_date
         if lead_source is not None:
             opportunity_data["leadSource"] = lead_source
-        
+
         # Build billing address if any address field is provided
         billing_address = {}
         if billing_address_name is not None:
@@ -474,7 +474,7 @@ async def create_new_opportunity(
             billing_address["country"] = billing_address_country
         if billing_address:
             opportunity_data["billingAddress"] = billing_address
-        
+
         # Build site address if any address field is provided
         site_address = {}
         if site_address_name is not None:
@@ -493,7 +493,7 @@ async def create_new_opportunity(
             site_address["country"] = site_address_country
         if site_address:
             opportunity_data["siteAddress"] = site_address
-        
+
         logger.info(f"Creating opportunity with data: {opportunity_data}")
         result = await create_opportunity(opportunity_data)
         return {"success": True, "data": {"opportunity_id": result}}
@@ -503,7 +503,6 @@ async def create_new_opportunity(
     except Exception as e:
         logger.error(f"Failed to create opportunity: {e}")
         return {"success": False, "error": f"Failed to create opportunity: {str(e)}"}
-
 
 
 @mcp.tool()
@@ -597,7 +596,7 @@ async def update_existing_opportunity(
     """
     try:
         opportunity_data: dict[str, Any] = {}
-        
+
         # Add fields if provided
         if name is not None:
             opportunity_data["name"] = name
@@ -645,7 +644,7 @@ async def update_existing_opportunity(
             opportunity_data["lostReason"] = lost_reason
         if lost_description is not None:
             opportunity_data["lostDescription"] = lost_description
-        
+
         # Build billing address if any address field is provided
         billing_address = {}
         if billing_address_name is not None:
@@ -664,7 +663,7 @@ async def update_existing_opportunity(
             billing_address["country"] = billing_address_country
         if billing_address:
             opportunity_data["billingAddress"] = billing_address
-        
+
         # Build site address if any address field is provided
         site_address = {}
         if site_address_name is not None:
@@ -683,8 +682,10 @@ async def update_existing_opportunity(
             site_address["country"] = site_address_country
         if site_address:
             opportunity_data["siteAddress"] = site_address
-        
-        logger.info(f"Updating opportunity {opportunity_id} with data: {opportunity_data}")
+
+        logger.info(
+            f"Updating opportunity {opportunity_id} with data: {opportunity_data}"
+        )
         result = await update_opportunity(opportunity_id, opportunity_data)
         return {"success": True, "data": {"opportunity_id": result}}
     except ValueError as e:
@@ -693,7 +694,6 @@ async def update_existing_opportunity(
     except Exception as e:
         logger.error(f"Failed to update opportunity {opportunity_id}: {e}")
         return {"success": False, "error": f"Failed to update opportunity: {str(e)}"}
-
 
 
 @mcp.tool()
@@ -815,7 +815,10 @@ async def get_all_purchase_orders(
         return {"success": False, "error": str(e)}
     except Exception as e:
         logger.error(f"Failed to get purchase orders: {e}")
-        return {"success": False, "error": f"Failed to retrieve purchase orders: {str(e)}"}
+        return {
+            "success": False,
+            "error": f"Failed to retrieve purchase orders: {str(e)}",
+        }
 
 
 @mcp.tool()
@@ -839,7 +842,10 @@ async def get_purchase_order_info(purchase_order_id: str) -> dict[str, Any]:
         return {"success": False, "error": str(e)}
     except Exception as e:
         logger.error(f"Failed to get purchase order {purchase_order_id}: {e}")
-        return {"success": False, "error": f"Failed to retrieve purchase order: {str(e)}"}
+        return {
+            "success": False,
+            "error": f"Failed to retrieve purchase order: {str(e)}",
+        }
 
 
 @mcp.tool()
@@ -935,7 +941,10 @@ async def get_all_service_contracts(
         return {"success": False, "error": str(e)}
     except Exception as e:
         logger.error(f"Failed to get service contracts: {e}")
-        return {"success": False, "error": f"Failed to retrieve service contracts: {str(e)}"}
+        return {
+            "success": False,
+            "error": f"Failed to retrieve service contracts: {str(e)}",
+        }
 
 
 @mcp.tool()
@@ -959,7 +968,10 @@ async def get_service_contract_info(service_contract_id: str) -> dict[str, Any]:
         return {"success": False, "error": str(e)}
     except Exception as e:
         logger.error(f"Failed to get service contract {service_contract_id}: {e}")
-        return {"success": False, "error": f"Failed to retrieve service contract: {str(e)}"}
+        return {
+            "success": False,
+            "error": f"Failed to retrieve service contract: {str(e)}",
+        }
 
 
 @mcp.tool()

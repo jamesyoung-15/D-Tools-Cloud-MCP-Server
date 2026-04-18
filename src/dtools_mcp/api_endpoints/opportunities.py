@@ -154,14 +154,14 @@ async def create_opportunity(opportunity_data: dict[str, Any]) -> str:
     """
     if not opportunity_data:
         raise ValueError("opportunity_data must not be empty")
-    
+
     # Validate required fields
     if not opportunity_data.get("name"):
         raise ValueError("opportunity_data must contain 'name' field (required)")
-    
+
     has_client_id = bool(opportunity_data.get("clientId"))
     has_client_name = bool(opportunity_data.get("clientName"))
-    
+
     if not (has_client_id or has_client_name):
         raise ValueError(
             "opportunity_data must contain either 'clientId' or 'clientName' (required)"
@@ -191,7 +191,9 @@ async def create_opportunity(opportunity_data: dict[str, Any]) -> str:
         return response.json()
 
 
-async def update_opportunity(opportunity_id: str, opportunity_data: dict[str, Any]) -> str:
+async def update_opportunity(
+    opportunity_id: str, opportunity_data: dict[str, Any]
+) -> str:
     """Update an existing opportunity in D-Tools Cloud.
 
     Args:
