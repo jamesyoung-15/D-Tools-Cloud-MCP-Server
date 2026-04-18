@@ -39,10 +39,10 @@ All tools support filtering, searching, pagination, and date-range queries where
 
     ```env
     DTOOLS_API_KEY=your_api_key
-    DTOOLS_AUTH_TOKEN=your_auth_token
+    DTOOLS_AUTH_TOKEN=their_auth_token
     ```
 
-The DTOOLS_API_KEY needs to be created and the DTOOLS_AUTH_TOKEN is in their documentation, see [D-Tools Authentication Docs](https://docs.d-tools.cloud/en/articles/8756132-authentication) for details.
+See [D-Tools Authentication Docs](https://docs.d-tools.cloud/en/articles/8756132-authentication) for details on setting up credentials/auth.
 
 ### Run Server
 
