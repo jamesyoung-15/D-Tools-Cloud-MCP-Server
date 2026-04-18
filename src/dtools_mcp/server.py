@@ -6,7 +6,6 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 
 import dtools_mcp.logger  # noqa: F401 - initializes logging configuration
-from dtools_mcp.config import config
 from dtools_mcp.api_endpoints import (
     get_client_details,
     get_project_details,
