@@ -2,24 +2,26 @@
 
 Model Context Protocol (MCP) server for D-Tools Cloud API. Enables Claude and other LLMs to interact with D-Tools Cloud resources through natural language.
 
-## Available Tools
+## Overview
 
-Currently supports the following tools:
+This MCP server provides 17 tools for accessing D-Tools Cloud resources:
 
-- get_all_clients
-- get_client_info
-- get_all_projects
-- get_project_info
-- get_all_change_orders
-- get_change_order_info
-- get_all_opportunities
-- get_opportunity_info
+- **Clients**: List clients, get client details
+- **Projects**: List projects, get project details  
+- **Change Orders**: List change orders, get change order details
+- **Opportunities**: List opportunities, get opportunity details
+- **Products**: List products, get product details
+- **Purchase Orders**: List purchase orders, get purchase order details
+- **Quotes**: List quotes for an opportunity, get quote details
+- **Service Contracts**: List service contracts, get service contract details
+- **Time Entries**: List time entries with filtering
+- **Files**: Get file details
 
-Working on adding rest of API endpoints.
+All tools support filtering, searching, pagination, and date-range queries where applicable. Currently only implemented read-only operations to prevent potential destructive actions by the LLM. See [features](./docs/features.md) for more details.
 
 ## Quick Start
 
-## Prerequisites
+### Prerequisites
 
 - [uv](https://docs.astral.sh/uv/getting-started/installation/)
 - [D-Tools Cloud Account](https://d-tools.cloud/)
@@ -40,13 +42,15 @@ Working on adding rest of API endpoints.
     DTOOLS_AUTH_TOKEN=your_auth_token
     ```
 
-The DTOOLS_AUTH_TOKEN is `RFRDbG91ZEFQSVVzZXI6MyNRdVkrMkR1QCV3Kk15JTU8Yi1aZzlV` as described by their documentation, see [D-Tools Authentication Docs](https://docs.d-tools.cloud/en/articles/8756132-authentication) for details.
+The DTOOLS_API_KEY needs to be created and the DTOOLS_AUTH_TOKEN is in their documentation, see [D-Tools Authentication Docs](https://docs.d-tools.cloud/en/articles/8756132-authentication) for details.
 
 ### Run Server
 
 ```bash
 uv run main.py
 ```
+
+For detailed API endpoint documentation and parameters, see [features.md](docs/features.md).
 
 ### Debug with MCP Inspector
 
