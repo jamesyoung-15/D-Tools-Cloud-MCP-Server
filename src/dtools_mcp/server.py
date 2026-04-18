@@ -192,7 +192,10 @@ async def get_all_change_orders(project_id: str) -> dict[str, Any]:
         return {"success": False, "error": str(e)}
     except Exception as e:
         logger.error(f"Failed to get change orders for project {project_id}: {e}")
-        return {"success": False, "error": f"Failed to retrieve change orders: {str(e)}"}
+        return {
+            "success": False,
+            "error": f"Failed to retrieve change orders: {str(e)}",
+        }
 
 
 @mcp.tool()
@@ -273,7 +276,10 @@ async def get_all_opportunities(
         return {"success": False, "error": str(e)}
     except Exception as e:
         logger.error(f"Failed to get opportunities: {e}")
-        return {"success": False, "error": f"Failed to retrieve opportunities: {str(e)}"}
+        return {
+            "success": False,
+            "error": f"Failed to retrieve opportunities: {str(e)}",
+        }
 
 
 @mcp.tool()

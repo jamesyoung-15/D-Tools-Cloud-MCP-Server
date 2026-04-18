@@ -1,4 +1,4 @@
-""" Logger configuration for D-Tools Cloud MCP Server. """
+"""Logger configuration for D-Tools Cloud MCP Server."""
 
 import logging
 

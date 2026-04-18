@@ -18,4 +18,5 @@ class Config:
     log_level: str = os.getenv("LOG_LEVEL", "INFO").upper()
     log_file: str = os.getenv("LOG_FILE", "mcp_server.log")
 
+
 config = Config()

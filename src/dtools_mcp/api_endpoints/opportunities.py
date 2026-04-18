@@ -83,7 +83,9 @@ async def list_opportunities(
         includeArchived=include_archived,
         includeTotalCount=include_total_count,
     )
-    builder.add_date_range(from_estimated_close_date, to_estimated_close_date, "EstimatedClose")
+    builder.add_date_range(
+        from_estimated_close_date, to_estimated_close_date, "EstimatedClose"
+    )
     builder.add_date_range(from_actual_close_date, to_actual_close_date, "ActualClose")
     builder.add_date_range(from_created_date, to_created_date, "Created")
     builder.add_date_range(from_modified_date, to_modified_date, "Modified")
