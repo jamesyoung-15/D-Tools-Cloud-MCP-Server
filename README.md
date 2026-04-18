@@ -2,6 +2,21 @@
 
 Model Context Protocol (MCP) server for D-Tools Cloud API. Enables Claude and other LLMs to interact with D-Tools Cloud resources through natural language.
 
+## Available Tools
+
+Currently supports the following tools:
+
+- get_all_clients
+- get_client_info
+- get_all_projects
+- get_project_info
+- get_all_change_orders
+- get_change_order_info
+- get_all_opportunities
+- get_opportunity_info
+
+Working on adding rest of API endpoints.
+
 ## Quick Start
 
 ## Prerequisites

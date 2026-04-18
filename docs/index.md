@@ -11,21 +11,34 @@ This repo creates a basic Model Context Protocol (MCP) server to allow LLMs to i
 
 - Clone repo
 
-```bash
-git clone https://github.com/jamesyoung-15/D-Tools-Cloud-MCP-Server.git
-```
+    ```bash
+    git clone https://github.com/jamesyoung-15/D-Tools-Cloud-MCP-Server.git
+    ```
 
 - Enter repo
 
-```bash
-cd D-Tools-Cloud-MCP-Server
-```
+    ```bash
+    cd D-Tools-Cloud-MCP-Server
+    ```
+
+- Create `.env` file:
+
+    ```bash
+    cp .env.example .env
+    ```
+
+- Configure credentials in `.env`:
+
+    ```env
+    DTOOLS_API_KEY=your_api_key
+    DTOOLS_AUTH_TOKEN=your_auth_token
+    ```
 
 - Run server
 
-```bash
-uv run main.py
-```
+    ```bash
+    uv run main.py
+    ```
 
 ## Inspecting/Debugging MCP Server
 
