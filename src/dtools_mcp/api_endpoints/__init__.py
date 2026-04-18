@@ -31,6 +31,10 @@ from dtools_mcp.api_endpoints.quotes import (
     list_quotes,
     get_quote_details,
 )
+from dtools_mcp.api_endpoints.service_contracts import (
+    list_service_contracts,
+    get_service_contract_details,
+)
 
 __all__ = [
     # Clients
@@ -54,4 +58,7 @@ __all__ = [
     # Quotes
     "list_quotes",
     "get_quote_details",
+    # Service Contracts
+    "list_service_contracts",
+    "get_service_contract_details",
 ]
