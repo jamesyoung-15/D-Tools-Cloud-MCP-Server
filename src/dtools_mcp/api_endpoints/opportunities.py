@@ -141,18 +141,31 @@ async def create_opportunity(opportunity_data: dict[str, Any]) -> str:
     """Create a new opportunity in D-Tools Cloud.
 
     Args:
-        opportunity_data: Dictionary containing opportunity fields
-            (name, type, clientId, budget, priority, etc.)
+        opportunity_data: Dictionary containing opportunity fields.
+            Required: name and either clientId or clientName
+            Optional: type, budget, priority, owner, etc.
 
     Returns:
         The UUID of the newly created opportunity.
 
     Raises:
         httpx.HTTPError: If the API request fails.
-        ValueError: If authentication is not configured or data is invalid.
+        ValueError: If authentication is not configured or required fields are missing.
     """
-    if not opportunity_data or not opportunity_data.get("name"):
-        raise ValueError("opportunity_data must contain at least a 'name' field")
+    if not opportunity_data:
+        raise ValueError("opportunity_data must not be empty")
+    
+    # Validate required fields
+    if not opportunity_data.get("name"):
+        raise ValueError("opportunity_data must contain 'name' field (required)")
+    
+    has_client_id = bool(opportunity_data.get("clientId"))
+    has_client_name = bool(opportunity_data.get("clientName"))
+    
+    if not (has_client_id or has_client_name):
+        raise ValueError(
+            "opportunity_data must contain either 'clientId' or 'clientName' (required)"
+        )
 
     if not config.dtools_api_key and not config.dtools_auth_token:
         raise ValueError(
@@ -166,7 +179,15 @@ async def create_opportunity(opportunity_data: dict[str, Any]) -> str:
             json=opportunity_data,
             headers=get_headers(),
         )
-        response.raise_for_status()
+        if response.status_code >= 400:
+            error_details = response.text
+            try:
+                error_json = response.json()
+                error_details = error_json
+            except Exception:
+                pass
+            logger.error(f"API Error: {response.status_code} - {error_details}")
+            response.raise_for_status()
         return response.json()
 
 
@@ -204,5 +225,13 @@ async def update_opportunity(opportunity_id: str, opportunity_data: dict[str, An
             json=opportunity_data,
             headers=get_headers(),
         )
-        response.raise_for_status()
+        if response.status_code >= 400:
+            error_details = response.text
+            try:
+                error_json = response.json()
+                error_details = error_json
+            except Exception:
+                pass
+            logger.error(f"API Error: {response.status_code} - {error_details}")
+            response.raise_for_status()
         return response.json()
