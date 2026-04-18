@@ -18,6 +18,8 @@ from dtools_mcp.api_endpoints.change_orders import (
 from dtools_mcp.api_endpoints.opportunities import (
     list_opportunities,
     get_opportunity_details,
+    create_opportunity,
+    update_opportunity,
 )
 from dtools_mcp.api_endpoints.products import (
     list_products,
@@ -55,6 +57,8 @@ __all__ = [
     # Opportunities
     "list_opportunities",
     "get_opportunity_details",
+    "create_opportunity",
+    "update_opportunity",
     # Products
     "list_products",
     "get_product_details",

@@ -16,6 +16,8 @@ from dtools_mcp.api_endpoints import (
     get_change_order_details,
     list_opportunities,
     get_opportunity_details,
+    create_opportunity,
+    update_opportunity,
     list_products,
     get_product_details,
     list_purchase_orders,
@@ -314,6 +316,146 @@ async def get_opportunity_info(opportunity_id: str) -> dict[str, Any]:
     except Exception as e:
         logger.error(f"Failed to get opportunity {opportunity_id}: {e}")
         return {"success": False, "error": f"Failed to retrieve opportunity: {str(e)}"}
+
+
+@mcp.tool()
+async def create_new_opportunity(
+    name: str,
+    type: str | None = None,
+    client_id: str | None = None,
+    client_name: str | None = None,
+    budget: int | None = None,
+    priority: str | None = None,
+    owner: str | None = None,
+    estimated_close_date: str | None = None,
+    market_sector: str | None = None,
+    project_type: str | None = None,
+    building_type: str | None = None,
+) -> dict[str, Any]:
+    """Create a new opportunity in D-Tools Cloud.
+
+    Creates a new opportunity with the provided details. At minimum, name is required.
+
+    Args:
+        name: The name of the opportunity (required).
+        type: Opportunity type (e.g., "Project", "Service").
+        client_id: UUID of the associated client.
+        client_name: Name of the client if not using client_id.
+        budget: Budget amount for the opportunity.
+        priority: Priority level (e.g., "High", "Medium", "Low").
+        owner: Name of the opportunity owner/manager.
+        estimated_close_date: Expected close date (ISO 8601 format).
+        market_sector: Market sector for the opportunity.
+        project_type: Type of project.
+        building_type: Type of building involved.
+
+    Returns:
+        Dictionary with success status and new opportunity ID, or error information.
+    """
+    try:
+        opportunity_data: dict[str, Any] = {
+            "name": name,
+        }
+        
+        # Add optional fields if provided
+        if type:
+            opportunity_data["type"] = type
+        if client_id:
+            opportunity_data["clientId"] = client_id
+        if client_name:
+            opportunity_data["clientName"] = client_name
+        if budget is not None:
+            opportunity_data["budget"] = budget
+        if priority:
+            opportunity_data["priority"] = priority
+        if owner:
+            opportunity_data["owner"] = owner
+        if estimated_close_date:
+            opportunity_data["estimatedCloseDate"] = estimated_close_date
+        if market_sector:
+            opportunity_data["marketSector"] = market_sector
+        if project_type:
+            opportunity_data["projectType"] = project_type
+        if building_type:
+            opportunity_data["buildingType"] = building_type
+        
+        result = await create_opportunity(opportunity_data)
+        return {"success": True, "data": {"opportunity_id": result}}
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to create opportunity: {e}")
+        return {"success": False, "error": f"Failed to create opportunity: {str(e)}"}
+
+
+@mcp.tool()
+async def update_existing_opportunity(
+    opportunity_id: str,
+    name: str | None = None,
+    type: str | None = None,
+    priority: str | None = None,
+    budget: int | None = None,
+    owner: str | None = None,
+    stage: str | None = None,
+    estimated_close_date: str | None = None,
+    market_sector: str | None = None,
+    project_type: str | None = None,
+    building_type: str | None = None,
+) -> dict[str, Any]:
+    """Update an existing opportunity in D-Tools Cloud.
+
+    Updates specified fields of an opportunity. At least one field must be provided.
+
+    Args:
+        opportunity_id: UUID of the opportunity to update (required).
+        name: Updated opportunity name.
+        type: Updated opportunity type.
+        priority: Updated priority level.
+        budget: Updated budget amount.
+        owner: Updated owner/manager name.
+        stage: Updated stage/status.
+        estimated_close_date: Updated close date (ISO 8601 format).
+        market_sector: Updated market sector.
+        project_type: Updated project type.
+        building_type: Updated building type.
+
+    Returns:
+        Dictionary with success status and updated opportunity ID, or error information.
+    """
+    try:
+        opportunity_data: dict[str, Any] = {}
+        
+        # Add fields if provided
+        if name is not None:
+            opportunity_data["name"] = name
+        if type is not None:
+            opportunity_data["type"] = type
+        if priority is not None:
+            opportunity_data["priority"] = priority
+        if budget is not None:
+            opportunity_data["budget"] = budget
+        if owner is not None:
+            opportunity_data["owner"] = owner
+        if stage is not None:
+            opportunity_data["stage"] = stage
+        if estimated_close_date is not None:
+            opportunity_data["estimatedCloseDate"] = estimated_close_date
+        if market_sector is not None:
+            opportunity_data["marketSector"] = market_sector
+        if project_type is not None:
+            opportunity_data["projectType"] = project_type
+        if building_type is not None:
+            opportunity_data["buildingType"] = building_type
+        
+        result = await update_opportunity(opportunity_id, opportunity_data)
+        return {"success": True, "data": {"opportunity_id": result}}
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to update opportunity {opportunity_id}: {e}")
+        return {"success": False, "error": f"Failed to update opportunity: {str(e)}"}
 
 
 @mcp.tool()

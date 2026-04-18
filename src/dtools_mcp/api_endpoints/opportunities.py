@@ -135,3 +135,74 @@ async def get_opportunity_details(opportunity_id: str) -> dict[str, Any]:
         )
         response.raise_for_status()
         return response.json()
+
+
+async def create_opportunity(opportunity_data: dict[str, Any]) -> str:
+    """Create a new opportunity in D-Tools Cloud.
+
+    Args:
+        opportunity_data: Dictionary containing opportunity fields
+            (name, type, clientId, budget, priority, etc.)
+
+    Returns:
+        The UUID of the newly created opportunity.
+
+    Raises:
+        httpx.HTTPError: If the API request fails.
+        ValueError: If authentication is not configured or data is invalid.
+    """
+    if not opportunity_data or not opportunity_data.get("name"):
+        raise ValueError("opportunity_data must contain at least a 'name' field")
+
+    if not config.dtools_api_key and not config.dtools_auth_token:
+        raise ValueError(
+            "D-Tools credentials not configured. "
+            "Set DTOOLS_API_KEY or DTOOLS_AUTH_TOKEN environment variables."
+        )
+
+    async with httpx.AsyncClient() as client:
+        response = await client.post(
+            f"{BASE_API_URL}/Opportunities/CreateOpportunity",
+            json=opportunity_data,
+            headers=get_headers(),
+        )
+        response.raise_for_status()
+        return response.json()
+
+
+async def update_opportunity(opportunity_id: str, opportunity_data: dict[str, Any]) -> str:
+    """Update an existing opportunity in D-Tools Cloud.
+
+    Args:
+        opportunity_id: The UUID of the opportunity to update.
+        opportunity_data: Dictionary containing opportunity fields to update
+            (name, type, priority, budget, status, etc.)
+
+    Returns:
+        The UUID of the updated opportunity.
+
+    Raises:
+        httpx.HTTPError: If the API request fails.
+        ValueError: If authentication is not configured or ID is invalid.
+    """
+    if not opportunity_id:
+        raise ValueError("opportunity_id is required")
+
+    if not opportunity_data:
+        raise ValueError("opportunity_data must contain at least one field to update")
+
+    if not config.dtools_api_key and not config.dtools_auth_token:
+        raise ValueError(
+            "D-Tools credentials not configured. "
+            "Set DTOOLS_API_KEY or DTOOLS_AUTH_TOKEN environment variables."
+        )
+
+    async with httpx.AsyncClient() as client:
+        response = await client.put(
+            f"{BASE_API_URL}/Opportunities/UpdateOpportunity",
+            params={"id": opportunity_id},
+            json=opportunity_data,
+            headers=get_headers(),
+        )
+        response.raise_for_status()
+        return response.json()
