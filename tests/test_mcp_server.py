@@ -1,72 +1,41 @@
-"""Quick test to verify MCP server initialization and tool registration."""
+from collections.abc import AsyncGenerator
+from pprint import pprint
 
-import asyncio
-import sys
+import pytest
+from mcp.client.session import ClientSession
+from mcp.shared.memory import create_connected_server_and_client_session
+
+from dtools_mcp.server import mcp
 
 
-async def test_mcp_server():
+@pytest.fixture
+async def mcp_client_session() -> AsyncGenerator[ClientSession, None]:
+    async with create_connected_server_and_client_session(
+        mcp, raise_exceptions=True
+    ) as _session:
+        yield _session
+
+
+@pytest.mark.anyio
+async def test_mcp_server(mcp_client_session: ClientSession):
     """Test that the MCP server initializes correctly and registers tools."""
-    try:
-        # Import the MCP server
-        from dtools_mcp.server import mcp
+    grabbed_tools = await mcp_client_session.list_tools()
+    tools = grabbed_tools.tools
 
-        print("✓ MCP server imported successfully")
+    expected_tool_names = {
+        "get_all_clients",
+        "get_client_info",
+        "get_all_projects",
+        "get_project_info",
+    }
+    num_expected_tools = len(expected_tool_names)
 
-        # Check if tools are registered
-        if hasattr(mcp, "list_tools"):
-            try:
-                tools = await mcp.list_tools()
-                print(f"✓ MCP server has {len(tools)} tools registered")
-                for tool in tools:
-                    desc = (
-                        (tool.description[:60] + "...")
-                        if tool.description
-                        else "No description"
-                    )
-                    print(f"  - {tool.name}: {desc}")
-            except Exception as e:
-                print(f"✓ MCP server initialized (tools available)")
-        else:
-            print("✓ MCP server initialized")
-
-        # Verify tool functions exist
-        from dtools_mcp.server import (
-            get_all_clients,
-            get_all_projects,
-            get_client_info,
-            get_project_info,
+    for tool in tools:
+        print(f"Registered tool: {tool.name}")
+        assert tool.name in expected_tool_names, (
+            f"Unexpected tool registered: {tool.name}"
         )
 
-        print("✓ All tool functions imported successfully")
-
-        # Test that API wrapper loads correctly
-        from dtools_mcp.api import get_headers, list_clients
-
-        print("✓ API wrapper functions imported successfully")
-
-        # Check configuration
-        from dtools_mcp.config import config
-
-        if config.dtools_api_key or config.dtools_auth_token:
-            print("✓ D-Tools Cloud credentials are configured")
-        else:
-            print(
-                "⚠ D-Tools Cloud credentials are not configured "
-                "(set DTOOLS_API_KEY or DTOOLS_AUTH_TOKEN)"
-            )
-
-        print("\n✓ All initialization tests passed!")
-        return True
-
-    except Exception as e:
-        print(f"✗ Test failed: {e}", file=sys.stderr)
-        import traceback
-
-        traceback.print_exc()
-        return False
-
-
-if __name__ == "__main__":
-    success = asyncio.run(test_mcp_server())
-    sys.exit(0 if success else 1)
-
+    assert len(tools) == num_expected_tools, (
+        f"Expected {num_expected_tools} tools, but got {len(tools)}"
+    )
