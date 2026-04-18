@@ -16,6 +16,8 @@ from dtools_mcp.api_endpoints import (
     get_change_order_details,
     list_opportunities,
     get_opportunity_details,
+    list_products,
+    get_product_details,
 )
 
 # Configure logging
@@ -304,6 +306,82 @@ async def get_opportunity_info(opportunity_id: str) -> dict[str, Any]:
     except Exception as e:
         logger.error(f"Failed to get opportunity {opportunity_id}: {e}")
         return {"success": False, "error": f"Failed to retrieve opportunity: {str(e)}"}
+
+
+@mcp.tool()
+async def get_all_products(
+    brands: list[str] | None = None,
+    categories: list[str] | None = None,
+    suppliers: list[str] | None = None,
+    stock_items_only: bool = False,
+    include_inactive: bool = False,
+    search: str | None = None,
+    page: int = 1,
+    page_size: int = 20,
+    sort: str | None = None,
+) -> dict[str, Any]:
+    """Retrieve all products from D-Tools Cloud with optional filtering.
+
+    Supports filtering by brand, category, supplier, and search terms.
+    Can filter for stock items only or include inactive products.
+
+    Args:
+        brands: Filter by product brands
+        categories: Filter by product categories
+        suppliers: Filter by suppliers
+        stock_items_only: Return only stock items (default: False)
+        include_inactive: Include inactive products (default: False)
+        search: Search by product name, model, or brand
+        page: Page number for pagination (default: 1)
+        page_size: Items per page (default: 20, max: 100)
+        sort: Sort field name
+
+    Returns:
+        Dictionary with success status and products list, or error details.
+    """
+    try:
+        result = await list_products(
+            brands=brands,
+            categories=categories,
+            suppliers=suppliers,
+            stock_items_only=stock_items_only,
+            include_inactive=include_inactive,
+            search=search,
+            page=page,
+            page_size=page_size,
+            sort=sort,
+        )
+        return {"success": True, "data": result}
+    except ValueError as e:
+        logger.error(f"Configuration error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to get products: {e}")
+        return {"success": False, "error": f"Failed to retrieve products: {str(e)}"}
+
+
+@mcp.tool()
+async def get_product_info(product_id: str) -> dict[str, Any]:
+    """Retrieve detailed information about a specific product.
+
+    Provides comprehensive details about a product including pricing, specifications,
+    images, labor items, accessories, subscriptions, and inventory information.
+
+    Args:
+        product_id: The unique ID of the product (required).
+
+    Returns:
+        Dictionary with success status and product details, or error information.
+    """
+    try:
+        result = await get_product_details(product_id)
+        return {"success": True, "data": result}
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to get product {product_id}: {e}")
+        return {"success": False, "error": f"Failed to retrieve product: {str(e)}"}
 
 
 def main() -> None:

@@ -19,6 +19,10 @@ from dtools_mcp.api_endpoints.opportunities import (
     list_opportunities,
     get_opportunity_details,
 )
+from dtools_mcp.api_endpoints.products import (
+    list_products,
+    get_product_details,
+)
 
 __all__ = [
     # Clients
@@ -33,4 +37,7 @@ __all__ = [
     # Opportunities
     "list_opportunities",
     "get_opportunity_details",
+    # Products
+    "list_products",
+    "get_product_details",
 ]
