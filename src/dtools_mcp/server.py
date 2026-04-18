@@ -5,15 +5,20 @@ from typing import Any
 
 from mcp.server.fastmcp import FastMCP
 
+import dtools_mcp.logger  # noqa: F401 - initializes logging configuration
+from dtools_mcp.config import config
 from dtools_mcp.api_endpoints import (
     get_client_details,
     get_project_details,
     list_clients,
     list_projects,
+    list_change_orders,
+    get_change_order_details,
+    list_opportunities,
+    get_opportunity_details,
 )
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 mcp = FastMCP("D-Tools Cloud")
@@ -164,6 +169,135 @@ async def get_project_info(project_id: str) -> dict[str, Any]:
     except Exception as e:
         logger.error(f"Failed to get project {project_id}: {e}")
         return {"success": False, "error": f"Failed to retrieve project: {str(e)}"}
+
+
+@mcp.tool()
+async def get_all_change_orders(project_id: str) -> dict[str, Any]:
+    """Retrieve all change orders for a specific project.
+
+    Provides a list of change orders associated with a project, showing modifications
+    and adjustments made to the project scope and pricing.
+
+    Args:
+        project_id: The unique ID of the project (required).
+
+    Returns:
+        Dictionary with success status and change orders list, or error details.
+    """
+    try:
+        result = await list_change_orders(project_id)
+        return {"success": True, "data": result}
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to get change orders for project {project_id}: {e}")
+        return {"success": False, "error": f"Failed to retrieve change orders: {str(e)}"}
+
+
+@mcp.tool()
+async def get_change_order_info(change_order_id: str) -> dict[str, Any]:
+    """Retrieve detailed information about a specific change order.
+
+    Provides comprehensive details about a change order including items, pricing,
+    adjustments, payment terms, and status information.
+
+    Args:
+        change_order_id: The unique ID of the change order (required).
+
+    Returns:
+        Dictionary with success status and change order details, or error information.
+    """
+    try:
+        result = await get_change_order_details(change_order_id)
+        return {"success": True, "data": result}
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to get change order {change_order_id}: {e}")
+        return {"success": False, "error": f"Failed to retrieve change order: {str(e)}"}
+
+
+@mcp.tool()
+async def get_all_opportunities(
+    types: list[str] | None = None,
+    client_ids: list[str] | None = None,
+    stages: list[str] | None = None,
+    stage_groups: list[str] | None = None,
+    priorities: list[str] | None = None,
+    owners: list[str] | None = None,
+    search: str | None = None,
+    include_archived: bool = False,
+    page: int = 1,
+    page_size: int = 20,
+    sort: str | None = None,
+) -> dict[str, Any]:
+    """Retrieve all opportunities from D-Tools Cloud with optional filtering.
+
+    Supports filtering by type, client, stage, priority, owner, and search terms.
+
+    Args:
+        types: Filter by opportunity types
+        client_ids: Filter by client IDs (e.g., ["client1", "client2"])
+        stages: Filter by opportunity stages
+        stage_groups: Filter by stage groups
+        priorities: Filter by priorities (e.g., ["high", "medium"])
+        owners: Filter by owner names
+        search: Search by opportunity name or details
+        include_archived: Include archived opportunities (default: False)
+        page: Page number for pagination (default: 1)
+        page_size: Items per page (default: 20, max: 100)
+        sort: Sort field name
+
+    Returns:
+        Dictionary with success status and opportunities list, or error details.
+    """
+    try:
+        result = await list_opportunities(
+            types=types,
+            client_ids=client_ids,
+            stages=stages,
+            stage_groups=stage_groups,
+            priorities=priorities,
+            owners=owners,
+            search=search,
+            include_archived=include_archived,
+            page=page,
+            page_size=page_size,
+            sort=sort,
+        )
+        return {"success": True, "data": result}
+    except ValueError as e:
+        logger.error(f"Configuration error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to get opportunities: {e}")
+        return {"success": False, "error": f"Failed to retrieve opportunities: {str(e)}"}
+
+
+@mcp.tool()
+async def get_opportunity_info(opportunity_id: str) -> dict[str, Any]:
+    """Retrieve detailed information about a specific opportunity.
+
+    Provides comprehensive details about an opportunity including client information,
+    pricing, stage, probability, and associated quotes and resources.
+
+    Args:
+        opportunity_id: The unique ID of the opportunity (required).
+
+    Returns:
+        Dictionary with success status and opportunity details, or error information.
+    """
+    try:
+        result = await get_opportunity_details(opportunity_id)
+        return {"success": True, "data": result}
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to get opportunity {opportunity_id}: {e}")
+        return {"success": False, "error": f"Failed to retrieve opportunity: {str(e)}"}
 
 
 def main() -> None:

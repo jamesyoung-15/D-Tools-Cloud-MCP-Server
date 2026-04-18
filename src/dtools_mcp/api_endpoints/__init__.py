@@ -11,6 +11,14 @@ from dtools_mcp.api_endpoints.projects import (
     list_projects,
     get_project_details,
 )
+from dtools_mcp.api_endpoints.change_orders import (
+    list_change_orders,
+    get_change_order_details,
+)
+from dtools_mcp.api_endpoints.opportunities import (
+    list_opportunities,
+    get_opportunity_details,
+)
 
 __all__ = [
     # Clients
@@ -19,4 +27,10 @@ __all__ = [
     # Projects
     "list_projects",
     "get_project_details",
+    # Change Orders
+    "list_change_orders",
+    "get_change_order_details",
+    # Opportunities
+    "list_opportunities",
+    "get_opportunity_details",
 ]
