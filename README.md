@@ -4,6 +4,16 @@ Basic MCP server for interacting with D-Tools Cloud API. Currently in developmen
 
 ## Quick Start
 
+Create an `.env` file from the example:
+
+```bash
+cp .env.example .env
+```
+
+Replace the `DTOOLS_API_KEY` your D-Tools API key and `DTOOLS_AUTH_TOKEN` with auth token from D-Tools' docs ([found here](https://docs.d-tools.cloud/en/articles/8756132-authentication)), eg:
+
+To start the server run `main.py`, eg:
+
 ```bash
 uv run main.py
 ```
