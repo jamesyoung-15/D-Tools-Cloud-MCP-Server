@@ -9,7 +9,7 @@ This MCP server provides 17 tools for accessing D-Tools Cloud resources:
 - **Clients**: List clients, get client details
 - **Projects**: List projects, get project details  
 - **Change Orders**: List change orders, get change order details
-- **Opportunities**: List opportunities, get opportunity details
+- **Opportunities**: List opportunities, get opportunity details, create opportunity, update opportunity
 - **Products**: List products, get product details
 - **Purchase Orders**: List purchase orders, get purchase order details
 - **Quotes**: List quotes for an opportunity, get quote details
@@ -17,7 +17,7 @@ This MCP server provides 17 tools for accessing D-Tools Cloud resources:
 - **Time Entries**: List time entries with filtering
 - **Files**: Get file details
 
-All tools support filtering, searching, pagination, and date-range queries where applicable. Currently only implemented read-only operations to prevent potential destructive actions by the LLM. See [features](./docs/features.md) for more details.
+All tools support filtering, searching, pagination, and date-range queries where applicable. See [features](./docs/features.md) for more details.
 
 ## Quick Start
 
