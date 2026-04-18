@@ -135,3 +135,88 @@ async def get_project_details(project_id: str) -> dict[str, Any]:
         )
         response.raise_for_status()
         return response.json()
+
+
+async def update_project(project_id: str, project_data: dict[str, Any]) -> str:
+    """Update an existing project in D-Tools Cloud.
+
+    Args:
+        project_id: The UUID of the project to update.
+        project_data: Dictionary containing project fields to update.
+            Updateable fields: clientId, name, number, priority, budget,
+                             salesperson, projectManager, projectArea,
+                             fulfillmentLocation, opportunityWonDate,
+                             startDate, endDate, completedDate,
+                             billingAddress, siteAddress, contacts, resources, etc.
+
+            Address object structure (billingAddress, siteAddress):
+            {
+                "name": str (optional),
+                "addressLine1": str,
+                "addressLine2": str (optional),
+                "city": str,
+                "state": str,
+                "postalCode": str,
+                "country": str
+            }
+
+            Contact object structure (contacts array):
+            {
+                "id": str (optional UUID),
+                "name": str,
+                "firstName": str,
+                "lastName": str,
+                "company": str (optional),
+                "title": str (optional),
+                "email": str,
+                "secondaryEmail": str (optional),
+                "mobile": str (optional),
+                "phone": str (optional),
+                "fax": str (optional),
+                "addressLine1": str (optional),
+                "addressLine2": str (optional),
+                "city": str (optional),
+                "state": str (optional),
+                "postalCode": str (optional),
+                "country": str (optional),
+                "notes": str (optional),
+                "isActive": bool (optional),
+                "isPrimary": bool (optional)
+            }
+
+    Returns:
+        The UUID of the updated project.
+
+    Raises:
+        httpx.HTTPError: If the API request fails.
+        ValueError: If authentication is not configured or ID is invalid.
+    """
+    if not project_id:
+        raise ValueError("project_id is required")
+
+    if not project_data:
+        raise ValueError("project_data must contain at least one field to update")
+
+    if not config.dtools_api_key and not config.dtools_auth_token:
+        raise ValueError(
+            "D-Tools credentials not configured. "
+            "Set DTOOLS_API_KEY or DTOOLS_AUTH_TOKEN environment variables."
+        )
+
+    async with httpx.AsyncClient() as client:
+        response = await client.put(
+            f"{BASE_API_URL}/Projects/UpdateProject",
+            params={"id": project_id},
+            json=project_data,
+            headers=get_headers(),
+        )
+        if response.status_code >= 400:
+            error_details = response.text
+            try:
+                error_json = response.json()
+                error_details = error_json
+            except Exception:
+                pass
+            logger.error(f"API Error: {response.status_code} - {error_details}")
+            response.raise_for_status()
+        return response.json()

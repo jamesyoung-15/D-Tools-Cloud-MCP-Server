@@ -12,6 +12,7 @@ from dtools_mcp.api_endpoints.clients import (
 from dtools_mcp.api_endpoints.projects import (
     list_projects,
     get_project_details,
+    update_project,
 )
 from dtools_mcp.api_endpoints.change_orders import (
     list_change_orders,
@@ -55,6 +56,7 @@ __all__ = [
     # Projects
     "list_projects",
     "get_project_details",
+    "update_project",
     # Change Orders
     "list_change_orders",
     "get_change_order_details",

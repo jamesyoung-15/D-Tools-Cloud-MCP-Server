@@ -13,6 +13,7 @@ from dtools_mcp.api_endpoints import (
     get_project_details,
     list_clients,
     list_projects,
+    update_project,
     list_change_orders,
     get_change_order_details,
     list_opportunities,
@@ -340,6 +341,103 @@ async def get_project_info(project_id: str) -> dict[str, Any]:
     except Exception as e:
         logger.error(f"Failed to get project {project_id}: {e}")
         return {"success": False, "error": f"Failed to retrieve project: {str(e)}"}
+
+
+@mcp.tool()
+async def update_existing_project(
+    project_id: str,
+    name: str | None = None,
+    number: str | None = None,
+    priority: str | None = None,
+    budget: int | None = None,
+    salesperson: str | None = None,
+    project_manager: str | None = None,
+    project_area: int | None = None,
+    fulfillment_location: str | None = None,
+    opportunity_won_date: str | None = None,
+    start_date: str | None = None,
+    end_date: str | None = None,
+    completed_date: str | None = None,
+    billing_address: dict[str, Any] | None = None,
+    site_address: dict[str, Any] | None = None,
+    contacts: list[dict[str, Any]] | None = None,
+    resources: list[str] | None = None,
+) -> dict[str, Any]:
+    """Update an existing project in D-Tools Cloud.
+
+    Updates the specified fields of an existing project.
+
+    Args:
+        project_id: The unique ID of the project to update (required).
+        name: Project name.
+        number: Project number.
+        priority: Project priority level.
+        budget: Project budget amount.
+        salesperson: Salesperson name or ID.
+        project_manager: Project manager name or ID.
+        project_area: Project area (int).
+        fulfillment_location: Fulfillment location.
+        opportunity_won_date: Date opportunity was won (ISO format string).
+        start_date: Project start date (ISO format string).
+        end_date: Project end date (ISO format string).
+        completed_date: Project completion date (ISO format string).
+        billing_address: Billing address object with keys: addressLine1, addressLine2, city, state, postalCode, country.
+        site_address: Site address object (same structure as billing_address).
+        contacts: List of contact objects with keys: name, firstName, lastName, email, phone, etc.
+        resources: List of resource names or IDs.
+
+    Returns:
+        Dictionary with success status and the updated project UUID, or error details.
+    """
+    try:
+        project_data: dict[str, Any] = {}
+
+        # Add fields to update if provided
+        if name is not None:
+            project_data["name"] = name
+        if number is not None:
+            project_data["number"] = number
+        if priority is not None:
+            project_data["priority"] = priority
+        if budget is not None:
+            project_data["budget"] = budget
+        if salesperson is not None:
+            project_data["salesperson"] = salesperson
+        if project_manager is not None:
+            project_data["projectManager"] = project_manager
+        if project_area is not None:
+            project_data["projectArea"] = project_area
+        if fulfillment_location is not None:
+            project_data["fulfillmentLocation"] = fulfillment_location
+        if opportunity_won_date is not None:
+            project_data["opportunityWonDate"] = opportunity_won_date
+        if start_date is not None:
+            project_data["startDate"] = start_date
+        if end_date is not None:
+            project_data["endDate"] = end_date
+        if completed_date is not None:
+            project_data["completedDate"] = completed_date
+        if billing_address is not None:
+            project_data["billingAddress"] = billing_address
+        if site_address is not None:
+            project_data["siteAddress"] = site_address
+        if contacts is not None:
+            project_data["contacts"] = contacts
+        if resources is not None:
+            project_data["resources"] = resources
+
+        result = await update_project(project_id, project_data)
+        return {
+            "success": True,
+            "data": result,
+            "message": f"Project updated successfully. ID: {result}",
+        }
+    except ValueError as e:
+        logger.error(f"Validation error: {e}")
+        return {"success": False, "error": str(e)}
+    except Exception as e:
+        logger.error(f"Failed to update project {project_id}: {e}")
+        return {"success": False, "error": f"Failed to update project: {str(e)}"}
 
 
 @mcp.tool()
