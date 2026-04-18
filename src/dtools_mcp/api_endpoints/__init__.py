@@ -35,6 +35,12 @@ from dtools_mcp.api_endpoints.service_contracts import (
     list_service_contracts,
     get_service_contract_details,
 )
+from dtools_mcp.api_endpoints.time_entries import (
+    list_time_entries,
+)
+from dtools_mcp.api_endpoints.files import (
+    get_file_details,
+)
 
 __all__ = [
     # Clients
@@ -61,4 +67,8 @@ __all__ = [
     # Service Contracts
     "list_service_contracts",
     "get_service_contract_details",
+    # Time Entries
+    "list_time_entries",
+    # Files
+    "get_file_details",
 ]
