@@ -2,7 +2,7 @@
 
 from dtools_mcp.config import config
 
-BASE_API_URL = "https://dtcloudapi.d-tools.cloud/api/v1"
+BASE_API_URL = config.dtools_api_url
 
 
 def get_headers() -> dict[str, str]:
