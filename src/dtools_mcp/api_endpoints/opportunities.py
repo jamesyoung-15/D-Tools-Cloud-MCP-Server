@@ -101,6 +101,11 @@ async def list_opportunities(
             params=params,
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to list opportunities: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 
@@ -133,6 +138,11 @@ async def get_opportunity_details(opportunity_id: str) -> dict[str, Any]:
             params={"id": opportunity_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to get opportunity {opportunity_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 

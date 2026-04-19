@@ -83,6 +83,11 @@ async def list_products(
             params=params,
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to list products: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 
@@ -115,6 +120,11 @@ async def get_product_details(product_id: str) -> dict[str, Any]:
             params={"id": product_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to get product {product_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 

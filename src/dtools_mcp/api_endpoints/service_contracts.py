@@ -97,6 +97,11 @@ async def list_service_contracts(
             params=params,
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to list service contracts: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 
@@ -129,5 +134,10 @@ async def get_service_contract_details(service_contract_id: str) -> dict[str, An
             params={"id": service_contract_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to get service contract {service_contract_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()

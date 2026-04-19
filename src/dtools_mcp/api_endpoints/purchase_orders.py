@@ -90,6 +90,11 @@ async def list_purchase_orders(
             params=params,
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to list purchase orders: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 
@@ -122,5 +127,10 @@ async def get_purchase_order_details(purchase_order_id: str) -> dict[str, Any]:
             params={"id": purchase_order_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to get purchase order {purchase_order_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()

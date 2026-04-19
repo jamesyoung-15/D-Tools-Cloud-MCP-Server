@@ -39,6 +39,11 @@ async def list_quotes(opportunity_id: str) -> dict[str, Any]:
             params={"opportunityId": opportunity_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to list quotes for opportunity {opportunity_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
 
@@ -71,5 +76,10 @@ async def get_quote_details(quote_id: str) -> dict[str, Any]:
             params={"id": quote_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to get quote {quote_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()

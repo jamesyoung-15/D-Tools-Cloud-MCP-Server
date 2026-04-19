@@ -73,5 +73,10 @@ async def get_change_order_details(change_order_id: str) -> dict[str, Any]:
             params={"id": change_order_id},
             headers=get_headers(),
         )
+        if response.status_code >= 400:
+            logger.error(
+                f"Failed to get change order {change_order_id}: "
+                f"Status {response.status_code} - {response.text}"
+            )
         response.raise_for_status()
         return response.json()
