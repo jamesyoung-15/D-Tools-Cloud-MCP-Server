@@ -5,6 +5,9 @@ import logging
 from fastmcp import FastMCP
 from fastmcp.server.auth import OAuthProxy
 from fastmcp.server.auth.providers.jwt import JWTVerifier
+from key_value.aio.stores.disk import DiskStore
+from key_value.aio.wrappers.encryption import FernetEncryptionWrapper
+from cryptography.fernet import Fernet
 
 from dtools_mcp.config import config
 
@@ -35,6 +38,10 @@ if config.enable_auth:
             upstream_client_secret=config.oauth_client_secret,
             token_verifier=token_verifier,
             base_url=config.oauth_base_url,
+            client_storage=FernetEncryptionWrapper(
+                key_value=DiskStore(directory=config.auth_storage_path),
+                fernet=Fernet(config.storage_encryption_key.encode()),
+            ),
         )
 
         logger.info("OAuth authentication enabled")

@@ -30,6 +30,8 @@ class Config:
     oauth_client_id: str = os.getenv("OAUTH_CLIENT_ID", "")
     oauth_client_secret: str = os.getenv("OAUTH_CLIENT_SECRET", "")
     oauth_base_url: str = os.getenv("OAUTH_BASE_URL", "http://localhost:8000")
+    storage_encryption_key: str = os.getenv("STORAGE_ENCRYPTION_KEY", "")
+    auth_storage_path: str = os.getenv("AUTH_STORAGE_PATH", "./auth_storage")
 
 
 config = Config()
