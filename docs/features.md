@@ -1,6 +1,6 @@
 # Supported Features
 
-## MCP Tools (22 Total)
+## MCP Tools (26 Total)
 
 All tools support comprehensive error handling with `success` and `error` fields in responses.
 
@@ -20,7 +20,7 @@ All tools support comprehensive error handling with `success` and `error` fields
 - **`update_existing_client`** - Updates an existing client information
   - Returns: Update status (eg. success)
 
-### Projects (2 tools)
+### Projects (3 tools)
 
 - **`get_all_projects`** - List all projects with comprehensive filtering
   - Filters: client_ids, stage_groups, stages, priorities, project_managers, date ranges (created/modified/completed), include archived, search
@@ -29,6 +29,9 @@ All tools support comprehensive error handling with `success` and `error` fields
 
 - **`get_project_info`** - Get detailed project information
   - Returns: full project details, items, locations, systems, phases, labor types, taxes, payment terms, files
+
+- **`update_project`** - Updates an existing project information
+  - Returns: Update status (eg. success)
 
 ### Change Orders (2 tools)
 
@@ -55,7 +58,7 @@ All tools support comprehensive error handling with `success` and `error` fields
 - **`update_existing_opportunity`** - Updates an existing opportunity
   - Returns: Update status (eg. success)
 
-### Products (2 tools)
+### Products (5 tools)
 
 - **`get_all_products`** - List all products with filtering
   - Filters: brands, categories, suppliers, stock_items_only, include_inactive, search
@@ -64,6 +67,15 @@ All tools support comprehensive error handling with `success` and `error` fields
 
 - **`get_product_info`** - Get detailed product information
   - Returns: product details, pricing, images, specifications, labor items, accessories, subscriptions, inventory
+
+- **`update_product_price`** - Updates an existing product's price(s)
+  - Returns: Status message (eg. success)
+
+- **`update_product_barcode`** - Updates an existing product's barcode(s)
+  - Returns: Status message (eg. success)
+
+- **`update_product_status`** - Updates an existing product's status (eg. inactive)
+  - Returns: Status message (eg. success)
 
 ### Purchase Orders (2 tools)
 
@@ -107,9 +119,9 @@ All tools support comprehensive error handling with `success` and `error` fields
 - **`get_file_info`** - Get detailed file information
   - Returns: file name, URL, parent object type/ID
 
-## API Endpoints (GET operations)
+## D-Tools Cloud API Endpoints
 
-### Implemented ✅
+### Implemented
 
 - [x] **Clients**
   - [x] GetClients - List with filters and pagination
@@ -120,7 +132,7 @@ All tools support comprehensive error handling with `success` and `error` fields
 - [x] **Projects**
   - [x] GetProjects - List with filters and pagination
   - [x] GetProject - Get single project details
-  - [ ] UpdateProject - Updates existing project
+  - [x] UpdateProject - Updates existing project
 
 - [x] **Change Orders**
   - [x] GetChangeOrders - List by project with pagination
@@ -135,9 +147,9 @@ All tools support comprehensive error handling with `success` and `error` fields
 - [x] **Products**
   - [x] GetProducts - List with filters and pagination
   - [x] GetProduct - Get single product details
-  - [ ] UpdateProductPrices - Updates a product's price
-  - [ ] UpdateProductBarcodes - Updates product's barcode
-  - [ ] UpdateProductStatuses - Updates product's status
+  - [x] UpdateProductPrices - Updates a product's price
+  - [x] UpdateProductBarcodes - Updates product's barcode
+  - [x] UpdateProductStatuses - Updates product's status
 
 - [x] **Purchase Orders**
   - [x] GetPurchaseOrders - List with filters and pagination
