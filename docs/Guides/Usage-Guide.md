@@ -107,7 +107,9 @@ All tools return consistent responses:
 ```json
 {
   "success": true,
-  "data": { /* API response */ }
+  "data": {
+    /* API response */
+  }
 }
 ```
 
@@ -139,9 +141,9 @@ The D-Tools API has rate limits. When Claude receives rate limit errors:
 2. **Check logs** - Review `server.log` for detailed error messages
 3. **Test with curl** - Verify D-Tools API credentials work:
 
-    ```bash
-    curl -H "Authorization: Bearer $DTOOLS_AUTH_TOKEN" \
-         https://dtcloudapi.d-tools.cloud/v1/clients
-    ```
+   ```bash
+   curl -H "Authorization: Bearer $DTOOLS_AUTH_TOKEN" \
+        https://dtcloudapi.d-tools.cloud/v1/clients
+   ```
 
 4. **Enable debug logging** - Set `LOG_LEVEL=DEBUG` in `.env`

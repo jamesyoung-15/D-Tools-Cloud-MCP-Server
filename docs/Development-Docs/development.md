@@ -72,29 +72,29 @@ async def list_new_resource(
     page_size: int = 20,
 ) -> Any:
     """List all new resources with optional filtering.
-    
+
     Args:
         filter_param: Filter by specific field
         page: Page number (default: 1)
         page_size: Items per page (default: 20)
-        
+
     Returns:
         List of resources
-        
+
     Raises:
         ValueError: If validation fails
     """
     if page < 1 or page_size < 1:
         raise ValueError("page and page_size must be positive integers")
-    
+
     query = (QueryBuilder()
         .add_filter("filterParam", filter_param)
         .add_pagination(page, page_size)
         .build())
-    
+
     url = f"{BASE_API_URL}/new-resource"
     headers = get_headers()
-    
+
     async with httpx.AsyncClient() as client:
         response = await client.get(url, headers=headers, params=query)
         response.raise_for_status()
@@ -102,22 +102,22 @@ async def list_new_resource(
 
 async def get_new_resource_details(resource_id: str) -> Any:
     """Get detailed information about a specific resource.
-    
+
     Args:
         resource_id: The resource ID
-        
+
     Returns:
         Resource details
-        
+
     Raises:
         ValueError: If resource_id is empty
     """
     if not resource_id:
         raise ValueError("resource_id is required")
-    
+
     url = f"{BASE_API_URL}/new-resource/{resource_id}"
     headers = get_headers()
-    
+
     async with httpx.AsyncClient() as client:
         response = await client.get(url, headers=headers)
         response.raise_for_status()
@@ -150,12 +150,12 @@ async def get_all_new_resources(
     page_size: int = 20,
 ) -> dict[str, Any]:
     """List all new resources with optional filtering.
-    
+
     Args:
         filter_param: Filter by specific field
         page: Page number for pagination (default: 1)
         page_size: Number of items per page (default: 20)
-        
+
     Returns:
         success: True/False
         data: List of resources
@@ -178,10 +178,10 @@ async def get_all_new_resources(
 @mcp.tool()
 async def get_new_resource_info(resource_id: str) -> dict[str, Any]:
     """Get detailed information about a specific resource.
-    
+
     Args:
         resource_id: The resource ID
-        
+
     Returns:
         success: True/False
         data: Resource details
