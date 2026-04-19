@@ -7,7 +7,9 @@ src/dtools_mcp/
 ├── config.py              # Configuration (API keys, auth tokens)
 ├── server.py              # MCP tool definitions
 ├── query_builder.py       # Query parameter builder
+└── logger.py              # Logging config
 └── api_endpoints/         # Files to call API Endpoints
+└── tools/                 # Register MCP Tools
 tests/                     # Tests directory for pytest
 ```
 
