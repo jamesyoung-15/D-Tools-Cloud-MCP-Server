@@ -57,7 +57,7 @@ For detailed API endpoint documentation and parameters, see [features.md](docs/f
 ### Debug with MCP Inspector
 
 ```bash
-npx @modelcontextprotocol/inspector uv run main.py
+npx @modelcontextprotocol/inspector
 ```
 
 ## References
