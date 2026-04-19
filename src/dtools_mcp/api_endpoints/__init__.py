@@ -27,6 +27,9 @@ from dtools_mcp.api_endpoints.opportunities import (
 from dtools_mcp.api_endpoints.products import (
     list_products,
     get_product_details,
+    update_product_prices,
+    update_product_barcodes,
+    update_product_statuses,
 )
 from dtools_mcp.api_endpoints.purchase_orders import (
     list_purchase_orders,
@@ -68,6 +71,9 @@ __all__ = [
     # Products
     "list_products",
     "get_product_details",
+    "update_product_prices",
+    "update_product_barcodes",
+    "update_product_statuses",
     # Purchase Orders
     "list_purchase_orders",
     "get_purchase_order_details",
