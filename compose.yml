@@ -1,0 +1,9 @@
+services:
+  fastmcp:
+    build: .
+    container_name: dtoolsmcp-fastmcp
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
