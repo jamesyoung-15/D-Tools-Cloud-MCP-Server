@@ -207,11 +207,10 @@ Each resource has an endpoint file in `src/dtools_mcp/api_endpoints/`:
 
 ### MCP Tools Layer
 
-`src/dtools_mcp/server.py` wraps endpoints as MCP tools:
+`src/dtools_mcp/tools/` wraps endpoints as MCP tools:
 
 - Tool registration with descriptions
 - Parameter schemas for LLM integration
-- Consistent response format (success/data or success/error)
 - Centralized logging
 
 ### Utilities
