@@ -5,7 +5,9 @@ This repo creates a basic Model Context Protocol (MCP) server to allow LLMs to i
 ## Pre-requisites
 
 - [git](https://git-scm.com/)
-- [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- [D-Tools Cloud Account](https://d-tools.cloud/)
+- [D-Tools Cloud API Key](https://docs.d-tools.cloud/en/articles/8756116-api-keys-and-webhooks)
+- [Docker Compose](https://docs.docker.com/compose/) or [uv](https://docs.astral.sh/uv/)
 
 ## Quick Start
 
@@ -27,17 +29,27 @@ This repo creates a basic Model Context Protocol (MCP) server to allow LLMs to i
   cp .env.example .env
   ```
 
-- Configure credentials in `.env`:
+- Configure D-Tools credentials in `.env`:
 
   ```env
   DTOOLS_API_KEY=your_api_key
   DTOOLS_AUTH_TOKEN=your_auth_token
   ```
 
+- (Optional) setup OAuth
+
 - Run server
 
+  With Docker:
+
   ```bash
-  uv run main.py
+  docker compose up -d
+  ```
+
+  With uv (remove `--transport http` for stdio):
+
+  ```bash
+  uv run main.py --transport http
   ```
 
 ## Inspecting/Debugging MCP Server
@@ -46,10 +58,4 @@ We can use MCP Inspector tool to test and debug the MCP server:
 
 ```bash
 npx @modelcontextprotocol/inspector
-```
-
-One line to run inspector and MCP server (replace `--directory` argument to point to this repo):
-
-```bash
-npx @modelcontextprotocol/inspector uv --directory replace-me run main.py
 ```
