@@ -36,7 +36,20 @@ This repo creates a basic Model Context Protocol (MCP) server to allow LLMs to i
   DTOOLS_AUTH_TOKEN=your_auth_token
   ```
 
-- (Optional) setup OAuth
+- (Optional) Setup OAuth with Authentik
+
+   ```env
+   DTOOLS_API_KEY=your_api_key
+   DTOOLS_AUTH_TOKEN=their_auth_token
+
+   ENABLE_AUTH=true
+   AUTHENTIK_ISSUER=auth.example.com
+   AUTHENTIK_APPLICATION=your_application_name
+   OAUTH_BASE_URL=fastmcp.example.com
+   OAUTH_CLIENT_ID=yourclientid
+   OAUTH_CLIENT_SECRET=yoursecret
+   STORAGE_ENCRYPTION_KEY=generatedkey
+   ```
 
 - Run server
 
@@ -54,7 +67,7 @@ This repo creates a basic Model Context Protocol (MCP) server to allow LLMs to i
 
 ## Inspecting/Debugging MCP Server
 
-We can use MCP Inspector tool to test and debug the MCP server:
+You can use MCP Inspector tool to test and debug the MCP server:
 
 ```bash
 npx @modelcontextprotocol/inspector

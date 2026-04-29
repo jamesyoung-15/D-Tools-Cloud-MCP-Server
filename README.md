@@ -32,8 +32,9 @@ For exposing the MCP server (eg. hosting on VPS), the project supports OAuth to 
 - [D-Tools Cloud Account](https://d-tools.cloud/)
 - [D-Tools Cloud API Key](https://docs.d-tools.cloud/en/articles/8756116-api-keys-and-webhooks)
 - [Docker Compose](https://docs.docker.com/compose/) or [uv](https://docs.astral.sh/uv/)
+- (Optional if using OAuth) [Authentik](https://docs.goauthentik.io/)
 
-#### Setup
+### Project Setup
 
 1. Create `.env` file:
 
@@ -67,17 +68,21 @@ For exposing the MCP server (eg. hosting on VPS), the project supports OAuth to 
 
    Since this project mainly uses Authentik, it uses [FastMCP OAuth Proxy](https://gofastmcp.com/servers/auth/oauth-proxy). It also uses [file storage](https://gofastmcp.com/servers/storage-backends#file-storage) to persist data. For storage encryption key, generate a Fernet key with something like `uv run python -c "from cryptography.fernet import Fernet; print(Fernet.generate_key().decode())"` or use online generator.
 
-### Docker
+### Running Server
 
-Quickest way to get project running is through Docker:
+#### Docker
+
+Quickest way to get the FastMCP server running is through Docker:
 
 ```bash
 docker compose up -d
 ```
 
-### Local Dev
+This will run the server on `http://localhost:8000`.
 
-#### Run Server
+#### Python (uv)
+
+With `uv`:
 
 ```bash
 uv run main.py --transport http
@@ -85,9 +90,7 @@ uv run main.py --transport http
 
 Remove the `--transport http` if you want to use `stdio` for dev/debug.
 
-For detailed D-Tools API endpoint documentation and parameters, see [features.md](docs/features.md).
-
-### Debug with MCP Inspector
+### (Optional) Test/Debug with MCP Inspector
 
 To quickly test your MCP server, you can use `MCP Inspector`, eg:
 
