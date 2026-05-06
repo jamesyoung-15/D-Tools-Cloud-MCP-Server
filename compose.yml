@@ -7,3 +7,6 @@ services:
       - "8000:8000"
     environment:
       - PYTHONUNBUFFERED=1
+      - AUTH_STORAGE_PATH=/app/auth_storage
+    volumes:
+      - ./auth_storage:/app/auth_storage
